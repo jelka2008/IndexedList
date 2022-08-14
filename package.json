@@ -1,0 +1,21 @@
+{
+  "name": "indexed-list",
+  "version": "0.0.1",
+  "description": "Combining abilities array and map. Fixed ordering, keys of any type, update friendly - in n(1), redux friendly - with mehtod shadow-'copy' ",
+  "Keywords": "js",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "kai3341",
+  "license": "MID",
+  "dependencies": {
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.7"
+  }
+}
