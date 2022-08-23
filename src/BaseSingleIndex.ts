@@ -6,7 +6,7 @@ export class BaseSingleIndex extends BaseIndexedList {
   public getByKeyA = (key: any): Array<any> => {
     return this.index.get(key);
   };
-
+  
   public getByKey(key: any): any {
     const valueA = this.index.get(key);
     return valueA && valueA[0];

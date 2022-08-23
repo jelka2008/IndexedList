@@ -7,30 +7,34 @@ const testArray = [
   { key: "e", value: 3 },
 ];
 
-const addedElement = { key: "r", value: 4 }
+const newElement = { key: "r", value: 4 }
 const searchElementKey = "q"
 const nonExistentElementKey = "a"
 const deletedElementKey = "w"
 const findIndeces = [-4, -2, -1, 0, 1, 2, 5]
 
-const findElement = (compareKey: any) => testArray.find(el => el.key === compareKey)
-const verificationCallback = (el: any) => el.value > 2;
+const findElement = (compareKey: any) => testArray.find(item => item.key === compareKey)
+const verificationCallback = (item: any) => item.value > 2;
 
-const testIndexList = new UniqIndexedList(testArray,(el)=>el["key"],false)
+const testIndexedList = new UniqIndexedList(testArray, (item) => item["key"], false)
 
 describe("UniqIndexedList", () => {
  
+  // // ------rebuildIndex-------------
   // test("it should create new indexes for element in indexedList and return ???", () => {
-  //   testIndexList.rebuildIndex();
-  //   const output = testIndexList;
+  //   testIndexedList.rebuildIndex();
+  
+  // // @ts-ignore
+  // expect(input.index).toEqual(output.index);
 
-  //   expect(true).toEqual(output);
+  // // @ts-ignore
+  // expect(input.list).toEqual(output.list);
   // })
 
   // ----at-------
   test("it should get element by index from indexedList", () => {
     findIndeces.forEach(index => {
-      const input = testIndexList.at(index);
+      const input = testIndexedList.at(index);
       const output = testArray.at(index);
 
       expect(input).toEqual(output);
@@ -39,14 +43,14 @@ describe("UniqIndexedList", () => {
 
   // -----getByKey----
  test("it should get element by key from indexedList", () => {
-    const input = testIndexList.getByKey(searchElementKey);
+    const input = testIndexedList.getByKey(searchElementKey);
     const output = findElement(searchElementKey);
 
     expect(input).toEqual(output);
   })
 
   test("it should get non-existent element by key from indexedList", () => {
-    const input = testIndexList.getByKey(nonExistentElementKey);
+    const input = testIndexedList.getByKey(nonExistentElementKey);
     const output = findElement(nonExistentElementKey);
 
     expect(input).toEqual(output);
@@ -54,38 +58,38 @@ describe("UniqIndexedList", () => {
 
 // --------getByKeyA--------------
   test("it should get Array with element by key from indexedList", () => {
-    const input = testIndexList.getByKeyA(searchElementKey);
+    const input = testIndexedList.getByKeyA(searchElementKey);
     const output = [findElement(searchElementKey)];
 
     expect(input).toEqual(output);
   })
 
   test("it should get Array with non-existent element by key from indexedList", () => {
-    const input = testIndexList.getByKeyA(nonExistentElementKey);
+    const input = testIndexedList.getByKeyA(nonExistentElementKey);
     const output = findElement(nonExistentElementKey);
 
     expect(input).toEqual(output);
   })
 
 // ---------hasKey--------
-  test("it should check is has existing element in indexedList ", () => {
-    const input = testIndexList.hasKey(searchElementKey);
+  test("it should check if there is a key in indexedList", () => {
+    const input = testIndexedList.hasKey(searchElementKey);
     const output = true;
 
     expect(input).toEqual(output);
   })
 
-  test("it should check is has non-existent element in indexedList ", () => {
-    const input = testIndexList.hasKey(nonExistentElementKey);
+  test("it should check is has non-existent key in indexedList ", () => {
+    const input = testIndexedList.hasKey(nonExistentElementKey);
     const output = false;
 
     expect(input).toEqual(output);
   })
 
-// --------delete-------------
+// --------deleteByKey-------------
   test("it should delete element with key from indexedList and return it's index", () => {
-    const input = testIndexList.delete(deletedElementKey);
-    const output = testArray.findIndex(el => el.key === deletedElementKey);
+    const input = testIndexedList.deleteByKey(deletedElementKey);
+    const output = testArray.findIndex(item => item.key === deletedElementKey);
     testArray.splice(output, 1);
 
     expect(input).toEqual(output);
@@ -93,31 +97,30 @@ describe("UniqIndexedList", () => {
 
   // -------add---------
   test("it should add element to indexedList and checking if a new element exists ", () => {
-    const newElement = addedElement;
-    testIndexList.add(newElement);
+    testIndexedList.add(newElement);
     testArray.push(newElement);
 
-    const input = testIndexList.hasKey(newElement.key);
+    const input = testIndexedList.hasKey(newElement.key);
     const output = true;
 
     expect(input).toEqual(output);
   })
 
-// ---------filter-and-inside-filterIter----------
+  // ---------filter-and-inside-filterIter----------
   test("it should return Array from indexedList's elements for which the expression in the function is true ", () => {
-    const input = testIndexList.filter(verificationCallback);
+    const input = testIndexedList.filter(verificationCallback);
     const output = testArray.filter(verificationCallback);
 
     expect(input).toEqual(output);
   })
 
   // ----------forEach-----------
-  const forEachTestFunction = (target) => {
+  const forEachTestFunction = (target: any) => {
     const result = [];
   
-    target.forEach(el => {
+    target.forEach((item: any) => {
       // callback
-      result.push(el.key);
+      result.push(item.key);
     })
   
     return result;
@@ -125,18 +128,18 @@ describe("UniqIndexedList", () => {
   
   test("it should apply callback with all element from indexedList by method 'forEach'", () => {
     const input = forEachTestFunction(testArray);
-    const output = forEachTestFunction(testIndexList);
+    const output = forEachTestFunction(testIndexedList);
 
     expect(input).toEqual(output)
   })
 
   // ---------map-and-inside-mapIter------
-  const mapTestFunction = (target) => {
+  const mapTestFunction = (target: any) => {
     const result = [];
 
-    target.map(el => {
+    target.map((item: any) => {
       // callback
-      result.push(el.key);
+      result.push(item.key);
     })
 
     return result;
@@ -144,14 +147,14 @@ describe("UniqIndexedList", () => {
 
   test("it should apply callback with all element from indexedList by method 'map'", () => {
     const input = mapTestFunction(testArray);
-    const output = mapTestFunction(testIndexList);
+    const output = mapTestFunction(testIndexedList);
 
     expect(input).toEqual(output);
   })
 
   // ----------length---------------
   test("it should count of element in indexedList by gettter 'lenght'", () => {
-    const input = testIndexList.length;
+    const input = testIndexedList.length;
     const output = testArray.length;
 
     expect(input).toEqual(output);
@@ -159,8 +162,8 @@ describe("UniqIndexedList", () => {
 
   // -------copy-------
   test("it should get shadow copy of indexedList", () => {
-    const input = testIndexList
-    const output = testIndexList.copy();
+    const input = testIndexedList
+    const output = testIndexedList.copy();
 
     // @ts-ignore
     expect(input.index).toEqual(output.index);
@@ -171,7 +174,7 @@ describe("UniqIndexedList", () => {
 
   // -----------some--------
   test("it should if at least one element from indexList passes verificationCallback", () => {
-    const input = testIndexList.some(verificationCallback);
+    const input = testIndexedList.some(verificationCallback);
     const output = testArray.some(verificationCallback);
 
     expect(input).toEqual(output);
@@ -182,7 +185,7 @@ describe("UniqIndexedList", () => {
     const beginIndex = 1
     const endIndex= 3
     
-    const input = testIndexList.slice(beginIndex,endIndex);
+    const input = testIndexedList.slice(beginIndex,endIndex);
     const output = testArray.slice(beginIndex,endIndex);
 
     expect(input).toEqual(output);
@@ -190,8 +193,8 @@ describe("UniqIndexedList", () => {
 
 // -----clear-------
   test("it should clear indexedList and make 0 in it's lenght", () => {
-    testIndexList.clear() // return nothing but change own data
-    const output = testIndexList.length === 0;
+    testIndexedList.clear() // return nothing but change own data
+    const output = testIndexedList.length === 0;
 
     expect(true).toEqual(output);
   })

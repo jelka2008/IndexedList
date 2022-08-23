@@ -29,7 +29,7 @@ export class UniqIndexedList extends BaseSingleIndex {
     }
   };
 
-  public delete = (key: any): any => {
+  public deleteByKey = (key: any): any => {
     const valueA = this.index.get(key);
 
     if (valueA === undefined) return;
